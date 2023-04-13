@@ -6,3 +6,9 @@ exports.postUserData=(req,res)=>{
         res.send(result);
     })
 }
+exports.getAllUsers=(req,res)=>{
+    console.log(req);
+    UserData.find({}).then((result)=>{
+        res.send(result);
+    })
+}
