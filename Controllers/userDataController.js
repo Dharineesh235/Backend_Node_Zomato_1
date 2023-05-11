@@ -2,13 +2,20 @@ const UserData=require('../Models/userDataModel');
 
 exports.postUserData=(req,res)=>{
     console.log(req.body);
-    res.send(req.body)
-    // UserData.insertMany({user_name:req.body.name, user_email:req.body.email, user_password:req.body.password}).then((result)=>{
-    //     res.send({
-    //         message: "Account Created",
-    //         data : result
-    //     });
-    // })
+    email=req.body.userEmail
+    filter={user_email:email}
+    UserData.find(filter).then(result=>{
+        if(result.length<=0){
+            UserData.insertMany({user_name:req.body.userName, user_email:req.body.userEmail, user_password:req.body.userPassword}).then((result)=>{
+                res.send({
+                    message: "Account Created",
+                    data : result
+                });
+            })
+        }
+        else res.send({message : "user exists"})
+    })
+    
 }
 exports.getAllUsers=(req,res)=>{
     console.log(req.body);
