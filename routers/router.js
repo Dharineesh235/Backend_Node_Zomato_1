@@ -17,6 +17,6 @@ Router.post('/filters/',restaurant.getRestaurant);
 Router.get('/menu/:rName',menu.getMenu);
 Router.post('/get-order-id',payment.orderId);
 Router.post('/postUser',userData.postUserData);
-Router.get('/getAllUsers',userData.getAllUsers);
+Router.post('/getAllUsers',userData.getAllUsers);
 
 module.exports=Router;

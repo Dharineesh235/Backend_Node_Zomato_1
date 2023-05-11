@@ -7,8 +7,23 @@ exports.postUserData=(req,res)=>{
     })
 }
 exports.getAllUsers=(req,res)=>{
-    console.log(req);
-    UserData.find({}).then((result)=>{
-        res.send(result);
+    console.log(req.body);
+    filter={
+        user_email : req.body.userEmail,
+        user_password : req.body.passWord
+    }
+    UserData.find(filter).then((result)=>{
+        console.log(result);
+       if(result.length > 0){
+        res.send({
+            data : result,
+            message : "Log in Successful",
+        })
+       }else{
+        res.send({
+            data : [],
+            message : "Failed to Log in",
+        })
+       }
     })
 }
