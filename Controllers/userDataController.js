@@ -19,21 +19,37 @@ exports.postUserData=(req,res)=>{
 }
 exports.getAllUsers=(req,res)=>{
     console.log(req.body);
-    filter={
+    filter_email={
         user_email : req.body.userEmail,
-        user_password : req.body.passWord
-    }
-    UserData.find(filter).then((result)=>{
-        console.log(result);
-       if(result.length > 0){
-        res.send({
-            data : result,
-            message : "Log in Successful",
-        })
-       }else{
+    };
+    filter_pass={
+        user_email : req.body.userEmail,
+        user_password : req.body.userPassWord,
+    };
+    UserData.find(filter_email).then((result_mail)=>{
+        console.log(result_mail);
+        if(result_mail.length > 0){
+            UserData.find(filter_pass).then(result_pass=>{
+                console.log(result_pass);
+                if(result_pass.length > 0){
+                    res.send({
+                    data : [{
+                                user_email:result_pass[0].user_email,
+                                user_name : result_pass[0].user_name
+                            }],
+                    message : "Log in Successful",
+                    })
+                }else{
+                    res.send({
+                        data : [],
+                        message : "Incorrect Password !"
+                    })
+                }
+            })
+        }else{
         res.send({
             data : [],
-            message : "Failed to Log in",
+            message : "Invalid Email !",
         })
        }
     })
