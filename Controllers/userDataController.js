@@ -23,17 +23,28 @@ exports.getAllUsers=(req,res)=>{
         user_email : req.body.userEmail,
         user_password : req.body.passWord
     }
-    UserData.find(filter).then((result)=>{
+    UserData.find({user_email : req.body.userEmail}).then((result)=>{
         console.log(result);
        if(result.length > 0){
-        res.send({
-            data : result,
-            message : "Log in Successful",
+        UserData.find(filter).then((pass)=>{
+            if(pass.length > 0){
+                res.send({
+                    data : result,
+                    message : "Log in Successful",
+                })
+            }
+            else{
+                res.send({
+                    data : [],
+                    message : "Incorrect Password !",
+                })
+            }
         })
+        
        }else{
         res.send({
             data : [],
-            message : "Failed to Log in",
+            message : "Invalid Email !",
         })
        }
     })
